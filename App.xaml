@@ -1,0 +1,125 @@
+<Application x:Class="BootLauncherLite.App"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             StartupUri="MainWindow.xaml">
+    <Application.Resources>
+
+        <!-- Base brushes for dark theme -->
+        <SolidColorBrush x:Key="WindowBackgroundBrush" Color="#0B0E13" />
+        <SolidColorBrush x:Key="CardBackgroundBrush" Color="#111827" />
+        <SolidColorBrush x:Key="RowBackgroundBrush" Color="#1F2937" />
+        <SolidColorBrush x:Key="RowAltBackgroundBrush" Color="#111827" />
+        <SolidColorBrush x:Key="TextBrush" Color="#FFFFFFFF" />
+        <SolidColorBrush x:Key="SubtleTextBrush" Color="#E5E7EB" />
+        <SolidColorBrush x:Key="BorderBrushDark" Color="#374151" />
+        <SolidColorBrush x:Key="AccentBrush" Color="#2563EB" />
+
+        <!-- Global text-like controls -->
+        <Style TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <Style TargetType="CheckBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <Style TargetType="RadioButton">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <Style TargetType="GroupBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <!-- TextBox dark style -->
+        <Style TargetType="TextBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource RowBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushDark}" />
+        </Style>
+
+        <!-- Buttons: simple dark style -->
+        <Style TargetType="Button">
+            <Setter Property="Foreground" Value="{StaticResource SubtleTextBrush}" />
+            <Setter Property="Background" Value="#374151" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushDark}" />
+            <Setter Property="Padding" Value="8,4" />
+        </Style>
+
+        <!-- DataGrid base style -->
+        <Style TargetType="DataGrid">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="RowBackground" Value="{StaticResource RowBackgroundBrush}" />
+            <Setter Property="AlternatingRowBackground" Value="{StaticResource RowAltBackgroundBrush}" />
+            <Setter Property="HorizontalGridLinesBrush" Value="{StaticResource BorderBrushDark}" />
+            <Setter Property="VerticalGridLinesBrush" Value="{StaticResource BorderBrushDark}" />
+        </Style>
+
+        <!-- DataGridColumnHeader style (header row) -->
+        <Style TargetType="DataGridColumnHeader">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushDark}" />
+        </Style>
+
+        <!-- DataGridRow with visible selection -->
+        <Style TargetType="DataGridRow">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource RowBackgroundBrush}" />
+            <Setter Property="BorderBrush" Value="{StaticResource BorderBrushDark}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- DataGridCell: inherit foreground properly -->
+        <Style TargetType="DataGridCell">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+        </Style>
+
+        <!-- ListBox (used in LogWindow) -->
+        <Style TargetType="ListBox">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource CardBackgroundBrush}" />
+        </Style>
+
+        <Style TargetType="ListBoxItem">
+            <Setter Property="Foreground" Value="{StaticResource TextBrush}" />
+            <Setter Property="Background" Value="{StaticResource RowBackgroundBrush}" />
+            <Style.Triggers>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{StaticResource AccentBrush}" />
+                    <Setter Property="Foreground" Value="White" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Toast panel -->
+        <SolidColorBrush x:Key="ToastBackgroundBrush" Color="#111827"/>
+        <SolidColorBrush x:Key="ToastBorderBrush"     Color="#374151"/>
+
+        <!-- Toast text -->
+        <SolidColorBrush x:Key="ToastHeaderTextBrush" Color="White"/>
+        <SolidColorBrush x:Key="ToastBodyTextBrush"   Color="#E5E7EB"/>
+
+        <!-- Toast buttons -->
+        <SolidColorBrush x:Key="ToastButtonBackgroundBrush"      Color="#1F2937"/>
+        <SolidColorBrush x:Key="ToastButtonBorderBrush"          Color="#374151"/>
+        <SolidColorBrush x:Key="ToastButtonTextBrush"            Color="Blue" />
+        <SolidColorBrush x:Key="ToastButtonHoverBackgroundBrush" Color="#2B5EBF"/>
+        <SolidColorBrush x:Key="ToastButtonHoverBorderBrush"     Color="#60A5FA"/>
+
+        <!-- Shared pressed color used by toast style -->
+        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#1E40AF"/>
+        
+    </Application.Resources>
+</Application>
+

@@ -1,0 +1,983 @@
+<Window x:Class="BootLauncherLite.MainWindow" 
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d"
+        Title="BootLauncherLite"
+        MaxHeight="980"
+        Width="1088"
+        WindowStartupLocation="CenterScreen"
+        Background="#0B0E13" 
+        MinWidth="1088"
+        MinHeight="700"
+        WindowStyle="SingleBorderWindow"
+        ResizeMode="CanResize" Height="980">
+
+
+    <!-- THEME RESOURCES -->
+    <Window.Resources>
+
+        <!-- GroupBox -->
+        <SolidColorBrush x:Key="GroupBoxBackgroundBrush"        Color="#1F2937"/>
+        <SolidColorBrush x:Key="GroupBoxBorderBrush"            Color="#374151"/>
+        <SolidColorBrush x:Key="GroupBoxForegroundBrush"        Color="White"/>
+        <SolidColorBrush x:Key="GroupBoxHeaderForegroundBrush"  Color="WhiteSmoke"/>
+        <SolidColorBrush x:Key="ComboBgBrush"                   Color="#FF1F2937"/>
+        <SolidColorBrush x:Key="ComboFgBrush"                   Color="#FFFFFFFF"/>
+        <SolidColorBrush x:Key="ComboHoverBrush"                Color="#FF374151"/>
+
+        <!-- Controls -->
+        <SolidColorBrush x:Key="ControlBackgroundBrush"         Color="#303030" />
+        <SolidColorBrush x:Key="ControlForegroundBrush"         Color="#F5F5F5" />
+
+        <!-- Buttons -->
+        <SolidColorBrush x:Key="ButtonBackgroundBrush"          Color="#1F2937"/>
+        <SolidColorBrush x:Key="ButtonBorderBrush"              Color="#374151"/>
+        <SolidColorBrush x:Key="ButtonForegroundBrush"          Color="White"/>
+        <!-- Optional separate brush for button text if you want to tweak later -->
+        <SolidColorBrush x:Key="ButtonTextBrush"                Color="#F5F5F5"/>
+        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush"     Color="#2B5EBF"/>
+        <SolidColorBrush x:Key="ButtonHoverBorderBrush"         Color="#60A5FA"/>
+        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush"   Color="#1E40AF"/>
+        <SolidColorBrush x:Key="ThemeTextBrush"                 Color="#E5E7EB"/>
+        <!-- DataGrid theme brushes -->
+        <SolidColorBrush x:Key="DataGridBackgroundBrush"        Color="#111827"/>
+        <SolidColorBrush x:Key="DataGridRowBrush"               Color="#1F2937"/>
+        <SolidColorBrush x:Key="DataGridAltRowBrush"            Color="#111827"/>
+        <SolidColorBrush x:Key="DataGridGridLinesBrush"         Color="#374151"/>
+        <SolidColorBrush x:Key="DataGridHoverBrush"             Color="#2B5EBF"/>
+        <SolidColorBrush x:Key="DataGridSelectedBrush"          Color="#2B3440"/>
+        <SolidColorBrush x:Key="DataGridForegroundBrush"        Color="White"/>
+
+        <!-- Header-only brushes -->
+        <SolidColorBrush x:Key="DataGridHeaderBackgroundBrush"  Color="#111827"/>
+        <SolidColorBrush x:Key="DataGridHeaderForegroundBrush"  Color="White"/>
+
+        <!-- Launch grid background -->
+        <SolidColorBrush x:Key="LaunchGridAreaBackgroundBrush"  Color="#050816"/>
+
+        <!-- ======================== -->
+        <!--  GROUPBOX STYLE          -->
+        <!-- ======================== -->
+        <Style x:Key="RoundedGroupBox" TargetType="GroupBox">
+            <Setter Property="Foreground"      Value="{DynamicResource GroupBoxForegroundBrush}"/>
+            <Setter Property="Background"      Value="{DynamicResource GroupBoxBackgroundBrush}"/>
+            <Setter Property="BorderBrush"     Value="{DynamicResource GroupBoxBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="8"/>
+            <Setter Property="Margin"          Value="0,0,0,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <!-- main card -->
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="12"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter Margin="0,10,0,0" />
+                            </Border>
+
+                            <!-- header "tab" -->
+                            <Border Background="Transparent"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Margin="12,-10,0,0"
+                                    Padding="6,2"
+                                    CornerRadius="2"
+                                    IsHitTestVisible="False">
+                                <ContentPresenter ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  SnapsToDevicePixels="True">
+                                    <ContentPresenter.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       Foreground="{DynamicResource GroupBoxHeaderForegroundBrush}"
+                                                       FontWeight="Bold"
+                                                       VerticalAlignment="Center"
+                                                       SnapsToDevicePixels="True"/>
+                                        </DataTemplate>
+                                    </ContentPresenter.ContentTemplate>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- ======================== -->
+        <!--  DEFAULT BUTTON STYLE    -->
+        <!-- ======================== -->
+        <Style TargetType="Button">
+            <!-- base brushes coming from theme -->
+            <Setter Property="Background"      Value="{DynamicResource ButtonBackgroundBrush}"/>
+            <Setter Property="BorderBrush"     Value="{DynamicResource ButtonBorderBrush}"/>
+            <Setter Property="Foreground"      Value="{DynamicResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="6,3"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                        BorderBrush="{TemplateBinding BorderBrush}"
+                        BorderThickness="{TemplateBinding BorderThickness}"
+                        CornerRadius="6"
+                        Padding="{TemplateBinding Padding}">
+                            <!-- TextBlock so we fully control text color -->
+                            <TextBlock Style="{x:Null}"
+                               Text="{TemplateBinding Content}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource ButtonForegroundBrush}"
+                               TextWrapping="NoWrap"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background"  Value="{DynamicResource ButtonHoverBackgroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}"/>
+                    <Setter Property="Foreground"  Value="{DynamicResource ButtonForegroundBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+        <!-- ======================== -->
+        <!--  DATAGRID HEADER STYLE   -->
+        <!-- ======================== -->
+        <Style x:Key="CustomDataGridColumnHeaderStyle" TargetType="DataGridColumnHeader">
+            <Setter Property="Background"               Value="{DynamicResource DataGridHeaderBackgroundBrush}" />
+            <Setter Property="Foreground"               Value="{DynamicResource DataGridHeaderForegroundBrush}" />
+            <Setter Property="BorderBrush"              Value="{DynamicResource DataGridGridLinesBrush}" />
+            <Setter Property="BorderThickness"          Value="0,0,0,1" />
+            <Setter Property="Padding"                  Value="8,6" />
+            <Setter Property="HorizontalContentAlignment" Value="Left" />
+            <Setter Property="FontWeight"               Value="Bold" />
+            <Setter Property="Height"                   Value="34" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="DataGridColumnHeader">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}">
+                            <TextBlock Text="{TemplateBinding Content}"
+                                       Margin="{TemplateBinding Padding}"
+                                       VerticalAlignment="Center"
+                                       HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                       FontWeight="{TemplateBinding FontWeight}"
+                                       Foreground="{TemplateBinding Foreground}" />
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridHoverBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DataGridHeaderForegroundBrush}" />
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridSelectedBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DataGridHeaderForegroundBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ======================== -->
+        <!--  DATAGRID ROW / CELL     -->
+        <!-- ======================== -->
+        <Style x:Key="CustomDataGridRowStyle" TargetType="DataGridRow">
+            <Setter Property="Background"          Value="{DynamicResource DataGridRowBrush}" />
+            <Setter Property="Foreground"          Value="{DynamicResource DataGridForegroundBrush}" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="BorderThickness"     Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridSelectedBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DataGridForegroundBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <Style x:Key="CustomDataGridCellStyle" TargetType="DataGridCell">
+            <Setter Property="Background"          Value="Transparent" />
+            <Setter Property="Foreground"          Value="{DynamicResource DataGridForegroundBrush}" />
+            <Setter Property="Padding"             Value="4,2" />
+            <Setter Property="BorderThickness"     Value="0" />
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridHoverBrush}" />
+                </Trigger>
+                <Trigger Property="IsSelected" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource DataGridSelectedBrush}" />
+                    <Setter Property="Foreground" Value="{DynamicResource DataGridForegroundBrush}" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- ======================== -->
+        <!--  THEMED TEXTBOX          -->
+        <!-- ======================== -->
+        <Style TargetType="TextBox">
+            <Setter Property="Background"      Value="{DynamicResource DataGridRowBrush}" />
+            <Setter Property="Foreground"      Value="{DynamicResource DataGridForegroundBrush}" />
+            <Setter Property="BorderBrush"     Value="{DynamicResource GroupBoxBorderBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="FocusVisualStyle" Value="{x:Null}" />
+        </Style>
+
+        <!-- ======================== -->
+        <!--  FLAG CHECKBOX STYLE     -->
+        <!-- ======================== -->
+        <Style x:Key="FlagCheckBoxStyle" TargetType="CheckBox">
+            <Setter Property="Background" Value="{DynamicResource ControlBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource GroupBoxForegroundBrush}" />
+            <Setter Property="Padding"    Value="4,2" />
+            <Setter Property="Margin"     Value="0,0,12,0" />
+        </Style>
+        <Style x:Key="ThemeLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GroupBoxForegroundBrush}" />
+        </Style>
+
+        <!-- Dark themed ComboBox with working dropdown -->
+        <Style x:Key="ThemedComboBox" TargetType="ComboBox">
+            <Setter Property="Foreground" Value="{DynamicResource ComboFgBrush}" />
+            <Setter Property="Background" Value="{DynamicResource ComboBgBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ComboBgBrush}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="4,2" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto" />
+            <Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto" />
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ComboBox">
+                        <Grid>
+                            <!-- ToggleButton controls IsDropDownOpen -->
+                            <ToggleButton x:Name="ToggleButton"
+                                      Background="{DynamicResource ComboBgBrush}"
+                                      BorderBrush="{DynamicResource ComboBgBrush}"
+                                      BorderThickness="1"
+                                      Focusable="False"
+                                      ClickMode="Press"
+                                      IsChecked="{Binding IsDropDownOpen, Mode=TwoWay,
+                                                          RelativeSource={RelativeSource TemplatedParent}}">
+                                <Grid>
+                                    <Border Background="{DynamicResource ComboBgBrush}"
+                                        CornerRadius="2" />
+                                    <!-- Selected item text -->
+                                    <ContentPresenter
+                                    Margin="6,3,25,3"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Center"
+                                    Content="{TemplateBinding SelectionBoxItem}"
+                                    ContentTemplate="{TemplateBinding SelectionBoxItemTemplate}"
+                                    ContentTemplateSelector="{TemplateBinding ItemTemplateSelector}" />
+                                    <!-- Arrow -->
+                                    <Path x:Name="Arrow"
+                                      VerticalAlignment="Center"
+                                      HorizontalAlignment="Right"
+                                      Margin="0,0,8,0"
+                                      Fill="{DynamicResource ComboFgBrush}"
+                                      Data="M 0 0 L 4 4 L 8 0 Z" />
+                                </Grid>
+                            </ToggleButton>
+
+                            <!-- Dropdown popup -->
+                            <Popup x:Name="Popup"
+                               Placement="Bottom"
+                               AllowsTransparency="True"
+                               Focusable="False"
+                               PopupAnimation="Slide"
+                               IsOpen="{TemplateBinding IsDropDownOpen}"
+                               PlacementTarget="{Binding ElementName=ToggleButton}">
+                                <Border Background="{DynamicResource ComboBgBrush}"
+                                    BorderBrush="{DynamicResource ComboBgBrush}"
+                                    BorderThickness="1">
+                                    <ScrollViewer>
+                                        <StackPanel IsItemsHost="True" />
+                                    </ScrollViewer>
+                                </Border>
+                            </Popup>
+                        </Grid>
+
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ToggleButton"
+                                    Property="Background"
+                                    Value="{DynamicResource ComboHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter Property="Opacity" Value="0.6" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!-- Dropdown items -->
+            <Setter Property="ItemContainerStyle">
+                <Setter.Value>
+                    <Style TargetType="ComboBoxItem">
+                        <Setter Property="Background" Value="{DynamicResource ComboBgBrush}" />
+                        <Setter Property="Foreground" Value="{DynamicResource ComboFgBrush}" />
+                        <Setter Property="Padding" Value="4,2" />
+                        <Style.Triggers>
+                            <Trigger Property="IsHighlighted" Value="True">
+                                <Setter Property="Background"
+                                    Value="{DynamicResource ComboHoverBrush}" />
+                            </Trigger>
+                            <Trigger Property="IsSelected" Value="True">
+                                <Setter Property="Background"
+                                    Value="{DynamicResource ComboHoverBrush}" />
+                            </Trigger>
+                        </Style.Triggers>
+                    </Style>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="ModernScrollBar" TargetType="ScrollBar">
+            <!-- Base thickness (for both orientations) -->
+            <Setter Property="Width"  Value="8" />
+            <Setter Property="Height" Value="8" />
+            <Setter Property="Margin" Value="0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="ScrollBar">
+                        <Grid Background="Transparent">
+                            <Track x:Name="PART_Track"
+                           Orientation="{TemplateBinding Orientation}"
+                           Maximum="{TemplateBinding Maximum}"
+                           Minimum="{TemplateBinding Minimum}"
+                           Value="{TemplateBinding Value}"
+                           ViewportSize="{TemplateBinding ViewportSize}">
+                                <Track.Thumb>
+                                    <Thumb x:Name="Thumb">
+                                        <Thumb.Template>
+                                            <ControlTemplate TargetType="Thumb">
+                                                <Border CornerRadius="4"
+                                                Background="#4B5563"   
+                                                    Margin="0" />
+                                            </ControlTemplate>
+                                        </Thumb.Template>
+                                    </Thumb>
+                                </Track.Thumb>
+                            </Track>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <!-- 🔁 Orientation-specific tweaks -->
+            <Style.Triggers>
+                <!-- Horizontal scrollbar: full width, small height -->
+                <Trigger Property="Orientation" Value="Horizontal">
+                    <Setter Property="Height" Value="8" />
+                    <Setter Property="Width" Value="Auto" />
+                </Trigger>
+
+                <!-- Vertical scrollbar: small width, full height -->
+                <Trigger Property="Orientation" Value="Vertical">
+                    <Setter Property="Width" Value="8" />
+                    <Setter Property="Height" Value="Auto" />
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+
+
+
+
+    </Window.Resources>
+
+    <!-- EXACTLY ONE CHILD OF WINDOW -->
+    <Border x:Name="RootBorder"
+            CornerRadius="12"
+            Background="#111827"
+            Padding="10"
+            Margin="10,10,10,14">
+
+        <!-- Main layout -->
+        <Grid Margin="0,-10,0,0">
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition Height="0*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="4*" />
+                <ColumnDefinition Width="243*"/>
+                <ColumnDefinition Width="277*" />
+            </Grid.ColumnDefinitions>
+
+            <!-- LEFT SIDE: configuration and WOL -->
+            <ScrollViewer Grid.Column="0"
+              Grid.ColumnSpan="2"
+              Margin="0,10,10,9"
+              VerticalScrollBarVisibility="Auto"
+                HorizontalScrollBarVisibility="Disabled">
+                <ScrollViewer.Resources>
+                <Style TargetType="ScrollBar"
+               BasedOn="{StaticResource ModernScrollBar}" />
+                </ScrollViewer.Resources>
+
+
+                <StackPanel Height="881">
+                    <!-- New launch item -->
+                    <GroupBox Header="New launch item"
+                          Style="{StaticResource RoundedGroupBox}"
+                          Margin="0,5,0,10" Height="189">
+                        <StackPanel Margin="10,10,10,-6">
+
+                            <!-- PATH -->
+                            <TextBlock Text="Program / script path:"
+                                   Margin="0,0,0,4"
+                                   Foreground="{DynamicResource GroupBoxForegroundBrush}" />
+                            <DockPanel>
+                                <TextBox x:Name="PathTextBox"
+                                     Width="220"
+                                     HorizontalScrollBarVisibility="Hidden"
+                                     TextWrapping="NoWrap"
+                                     Background="{DynamicResource DataGridRowBrush}"
+                                     Margin="0,0,5,0"/>
+                                <StackPanel Orientation="Horizontal">
+                                    <Button Content="Browse..."
+                                        Margin="0,0,5,0"
+                                        Click="BrowseButton_Click" />
+                                    <Button Content="From processes..."
+                                        Click="FromProcessesButton_Click" />
+                                </StackPanel>
+                            </DockPanel>
+
+                            <!-- DELAY + FLAGS -->
+                            <StackPanel Orientation="Horizontal"
+                                    Margin="0,10,0,0">
+
+                                <!-- Delay column -->
+                                <StackPanel>
+                                    <TextBlock Text="Delay (seconds):"
+                                           Margin="0,0,0,4"
+                                             Style="{StaticResource ThemeLabel}" />
+                                    <TextBox x:Name="DelayTextBox"
+                                         Width="80"
+                                         Text="0"
+                                         Background="{DynamicResource ControlBackgroundBrush}"
+                                         Foreground="{DynamicResource ControlForegroundBrush}" />
+                                </StackPanel>
+
+
+                                <!-- Flags column -->
+                                <StackPanel Margin="50,0,0,0">
+                                    <TextBlock Text="Flags:"
+                                           Margin="0,0,0,4"
+                                           Style="{StaticResource ThemeLabel}" />
+                                    <StackPanel>
+                                        <CheckBox x:Name="StartMinimizedCheckBox"
+                                              Style="{StaticResource FlagCheckBoxStyle}">
+                                            <TextBlock Text="Start minimized"
+                                                   Style="{StaticResource ThemeLabel}" />
+                                        </CheckBox>
+
+                                        <CheckBox x:Name="ForceMinimizeCheckBox"
+                                              Style="{StaticResource FlagCheckBoxStyle}">
+                                            <TextBlock Text="Force minimize(FM) (WinAPI)"
+                                                   Style="{StaticResource ThemeLabel}" />
+                                        </CheckBox>
+
+                                        <CheckBox x:Name="StartToTrayCheckBox"
+                                              Style="{StaticResource FlagCheckBoxStyle}">
+                                            <TextBlock Text="Start to tray (STT) (flag only)"
+                                                   Style="{StaticResource ThemeLabel}" />
+                                        </CheckBox>
+
+                                        <CheckBox x:Name="UseCmdRelayCheckBox"
+                                              Style="{StaticResource FlagCheckBoxStyle}">
+                                            <TextBlock Text="Use CMD relay (compatibility mode)"
+                                                   Style="{StaticResource ThemeLabel}" />
+                                        </CheckBox>
+
+                                        <!-- 🔹 NEW: CloseToTray flag -->
+                                        <CheckBox x:Name="CloseToTrayCheckBox"
+                                              Style="{StaticResource FlagCheckBoxStyle}">
+                                            <TextBlock Text="Close to tray (X → tray)"
+                                                   Style="{StaticResource ThemeLabel}" />
+                                        </CheckBox>
+                                    </StackPanel>
+                                </StackPanel>
+                            </StackPanel>
+
+                            <!-- ADD BUTTON -->
+                            <Button Content="Add to list"
+                                Margin="0,-25,0,0"
+                                Width="120"
+                                HorizontalAlignment="Left"
+                                Click="AddButton_Click" />
+                        </StackPanel>
+                    </GroupBox>
+
+                    <!-- Sequence controls -->
+                    <GroupBox Header="Sequence"
+                          Style="{StaticResource RoundedGroupBox}"
+                          Margin="0,0,0,10">
+                        <StackPanel Margin="10">
+                            <TextBlock Text="Run all items in order with their delays."
+                                   TextWrapping="Wrap"
+                                   Margin="0,0,0,10"
+                                   Style="{StaticResource ThemeLabel}" />
+
+                            <!-- Run + Log -->
+                            <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,8">
+                                <Button x:Name="RunButton"
+                                    Content="Run sequence"
+                                    Width="140"
+                                    HorizontalAlignment="Left"
+                                    Click="RunButton_Click" />
+
+                                <Button Content="Show log"
+                                    Width="100"
+                                    Margin="10,0,0,0"
+                                    Click="ShowLogButton_Click" />
+                            </StackPanel>
+
+                            <CheckBox x:Name="AutoCloseCheckBox"
+                                  Margin="0,0,0,8"
+                                  Style="{StaticResource FlagCheckBoxStyle}"
+                                  Checked="AutoCloseCheckBox_Checked">
+                                <TextBlock Text="Close launcher when done"
+                                       Style="{StaticResource ThemeLabel}" />
+                            </CheckBox>
+
+                            <CheckBox x:Name="RunAtStartupCheckBox"
+                                  Margin="0,6,0,0"
+                                  Style="{StaticResource FlagCheckBoxStyle}"
+                                  Checked="RunAtStartupCheckBox_Changed"
+                                  Unchecked="RunAtStartupCheckBox_Changed">
+                                <TextBlock Text="Run at Windows startup (to tray, auto-run)"
+                                      Style="{StaticResource ThemeLabel}" />
+                            </CheckBox>
+
+                            <!-- NEW: Startup mode picker (HKCU\Run vs Task Scheduler elevated) -->
+                            <StackPanel Orientation="Horizontal"
+            Margin="0,4,0,0"
+            VerticalAlignment="Center">
+                                <TextBlock Text="Startup mode:"
+               VerticalAlignment="Center"
+               Margin="0,0,6,0"
+               Style="{StaticResource ThemeLabel}" />
+
+                                <ComboBox x:Name="StartupModeComboBox"
+              Width="220"
+              Style="{StaticResource ThemedComboBox}"
+              SelectionChanged="StartupModeComboBox_SelectionChanged">
+                                    <ComboBoxItem Content="Registry (HKCU\Run)"
+                      Tag="RegistryRun" />
+                                    <ComboBoxItem Content="Task Scheduler (elevated)"
+                      Tag="TaskSchedulerElevated" />
+                                </ComboBox>
+                            </StackPanel>
+
+                            <!-- Autorun delay -->
+                            <StackPanel Orientation="Horizontal"
+                                    Margin="0,4,0,0"
+                                    VerticalAlignment="Center">
+                                <TextBlock Text="Autorun delay:"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,6,0"
+                                       Style="{StaticResource ThemeLabel}" />
+                                <Slider x:Name="AutorunDelaySlider"
+                                    Minimum="0"
+                                    Maximum="120"
+                                    Width="140"
+                                    SmallChange="1"
+                                    LargeChange="5"
+                                    ValueChanged="AutorunDelaySlider_ValueChanged" />
+                                <TextBlock x:Name="AutorunDelayValueText"
+                                      Text="30 s"
+                                      VerticalAlignment="Center"
+                                      Margin="6,0,0,0" />
+                            </StackPanel>
+
+                            <!-- Startup folders -->
+                            <TextBlock Text="Windows Startup folders:"
+                                   Margin="0,8,0,4"
+                                   Style="{StaticResource ThemeLabel}" />
+
+                            <StackPanel Orientation="Horizontal"
+                                    Width="290"
+                                      Margin="150,-25,0,0"  
+                                    RenderTransformOrigin="0.501,0.501">
+                                <Button Content="Open user Startup"
+                                    Width="136"
+                                    Click="OpenUserStartupFolderButton_Click" />
+                                <Button Content="Open common Startup "
+                                    Width="139"
+                                    Margin="10,0,0,0"
+                                    Click="OpenCommonStartupFolderButton_Click" />
+                            </StackPanel>
+                        </StackPanel>
+                    </GroupBox>
+
+
+                    <!-- Network / WOL -->
+                    <GroupBox Header="Network (Wake-on-LAN)"
+                          Style="{StaticResource RoundedGroupBox}"
+                          Height="434">
+                        <StackPanel Margin="10">
+
+                            <!-- Mode selection -->
+                            <StackPanel Orientation="Horizontal"
+                                    Margin="0,0,0,8">
+                                <TextBlock Text="Mode:"
+                                       VerticalAlignment="Center"
+                                       Margin="0,0,8,0" Style="{StaticResource ThemeLabel}" />
+
+                                <RadioButton x:Name="MasterRadio"
+                                         GroupName="ModeGroup"
+                                         IsChecked="True"
+                                         Checked="ModeRadio_Checked">
+                                    <TextBlock Text="Master"
+                                            Style="{StaticResource ThemeLabel}" />
+                                </RadioButton>
+
+                                <RadioButton x:Name="SlaveRadio"
+                                         GroupName="ModeGroup"
+                                         Margin="10,0,0,0"
+                                         Checked="ModeRadio_Checked">
+                                    <TextBlock Text="Slave"
+                                           
+                                           FontWeight="SemiBold" Style="{StaticResource ThemeLabel}" />
+                                </RadioButton>
+
+                                <!-- New manual heartbeat toggle -->
+                                <CheckBox x:Name="DisableHeartbeatCheckBox"
+                                      Margin="20,0,0,0"
+                                      VerticalAlignment="Center"
+                                      Style="{StaticResource FlagCheckBoxStyle}"
+                                      Checked="DisableHeartbeatCheckBox_Changed"
+                                      Unchecked="DisableHeartbeatCheckBox_Changed">
+                                    <TextBlock Text="Stop heartbeat"
+                                           Style="{StaticResource ThemeLabel}"
+                                           VerticalAlignment="Center" />
+                                </CheckBox>
+                            </StackPanel>
+
+                            <TextBlock Text="Remote machines (used when in Master mode):"
+                                   Margin="0,0,0,4" Style="{StaticResource ThemeLabel}" />
+
+                            <!-- WOL machines list -->
+                            <DataGrid x:Name="RemoteMachinesGrid"
+                                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                                  ColumnHeaderHeight="34"
+                                  RowStyle="{StaticResource CustomDataGridRowStyle}"
+                                  CellStyle="{StaticResource CustomDataGridCellStyle}"
+                                  ItemsSource="{Binding RemoteMachines}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="False"
+                                  Height="120"
+                                  Foreground="{DynamicResource DataGridForegroundBrush}"
+                                  Background="{DynamicResource DataGridBackgroundBrush}"
+                                  RowBackground="{DynamicResource DataGridRowBrush}"
+                                  AlternatingRowBackground="{DynamicResource DataGridAltRowBrush}"
+                                  BorderBrush="{DynamicResource GroupBoxBorderBrush}"
+                                  BorderThickness="1"
+                                   CurrentCellChanged="Grid_CurrentCellChanged"
+                                    CellEditEnding="Grid_CellEditEnding"
+                                  HorizontalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}"
+                                  VerticalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}">
+
+                                <DataGrid.Columns>
+                                    <DataGridCheckBoxColumn Header="Use"
+                                                        Binding="{Binding IsSelected}"
+                                                        Width="50" />
+                                    <DataGridTextColumn Header="Name"
+                                                    Binding="{Binding Name}"
+                                                    Width="*" />
+                                    <DataGridTextColumn Header="IP"
+                                                    Binding="{Binding IpAddress}"
+                                                    Width="120" />
+                                    <DataGridTextColumn Header="MAC"
+                                                    Binding="{Binding MacAddress}"
+                                                    Width="150" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+
+                            <!-- WOL buttons -->
+                            <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,8,0,0">
+                                <Button Content="Add"
+                                    Width="70"
+                                    Margin="0,0,5,0"
+                                    Click="AddRemoteMachineButton_Click" />
+                                <Button Content="Remove"
+                                    Width="80"
+                                    Margin="0,0,5,0"
+                                    Click="RemoveRemoteMachineButton_Click" />
+                                <Button Content="Test WOL"
+                                    Width="90"
+                                    Click="TestWolButton_Click" />
+                            </StackPanel>
+
+                            <!-- Discovered machines -->
+                            <TextBlock Text="Detected machines on LAN (this app running):"
+                                   Margin="0,10,0,4"
+                                   FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+
+                            <ScrollViewer Width="Auto"
+                               HorizontalScrollBarVisibility="Auto"
+                                 VerticalScrollBarVisibility="Disabled"
+                                 Margin="0,0,0,6" Height="116">
+
+                                <ScrollViewer.Resources>
+                                    <Style TargetType="ScrollBar" BasedOn="{StaticResource ModernScrollBar}" />
+                                </ScrollViewer.Resources>
+
+                                <DataGrid x:Name="DiscoveredMachinesGrid"
+                                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                                  ColumnHeaderHeight="34"
+                                  RowStyle="{StaticResource CustomDataGridRowStyle}"
+                                  CellStyle="{StaticResource CustomDataGridCellStyle}"
+                                  ItemsSource="{Binding DiscoveredMachines}"
+                                  AutoGenerateColumns="False"
+                                  CanUserAddRows="False"
+                                  CanUserDeleteRows="False"
+                                  IsReadOnly="False"
+                                  Height="120"
+                                          
+                                  Foreground="{DynamicResource DataGridForegroundBrush}"
+                                  Background="{DynamicResource DataGridBackgroundBrush}"
+                                  RowBackground="{DynamicResource DataGridRowBrush}"
+                                  AlternatingRowBackground="{DynamicResource DataGridAltRowBrush}"
+                                  HorizontalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}"
+                                  BorderBrush="{DynamicResource GroupBoxBorderBrush}"
+                                  BorderThickness="1"
+                                  VerticalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}"
+                                  MouseRightButtonUp="DiscoveredMachinesGrid_MouseRightButtonUp">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header="Name"
+                                                    Binding="{Binding Name}"
+                                                    Width="90" />
+                                    <DataGridTextColumn Header="IP"
+                                                    Binding="{Binding IpAddress}"
+                                                    Width="120" />
+                                    <DataGridTextColumn Header="Mode"
+                                                    Binding="{Binding Mode}"
+                                                    Width="80" />
+                                    <DataGridTextColumn Header="MAC"
+                                                    Binding="{Binding MacAddress}"
+                                                    Width="150" />
+                                    <DataGridTextColumn Header="Last seen"
+                                                    Binding="{Binding LastSeen}"
+                                                    Width="80" />
+                                </DataGrid.Columns>
+                            </DataGrid>
+                            </ScrollViewer>
+                            <StackPanel Orientation="Horizontal"
+                                    HorizontalAlignment="Right"
+                                    Margin="0,8,0,0">
+                                <Button Content="Refresh discovery"
+                                    Width="130"
+                                    Margin="0,0,8,0"
+                                    Click="RefreshDiscoveryButton_Click" />
+                                <Button Content="Add detected to WOL"
+                                    Width="150"
+                                    Click="AddDiscoveredToWolButton_Click" />
+                            </StackPanel>
+
+                        </StackPanel>
+                    </GroupBox>
+
+                </StackPanel>
+            </ScrollViewer>
+            <!-- RIGHT SIDE: launch items + audio -->
+            <Grid Grid.Column="2" Margin="0,31,0,18">
+                <Grid.RowDefinitions>
+                    <!-- Scrollable launch items area -->
+                    <RowDefinition Height="*" MinHeight="150" />
+                    <!-- Fixed buttons row -->
+                    <RowDefinition Height="Auto" />
+                    <!-- Fixed audio panel -->
+                    <RowDefinition Height="Auto" />
+                </Grid.RowDefinitions>
+
+                <!-- Launch items grid (scrollable only) -->
+                <ScrollViewer Grid.Row="0"
+                  VerticalScrollBarVisibility="Auto"
+                  HorizontalScrollBarVisibility="Disabled">
+                    <ScrollViewer.Resources>
+                        <Style TargetType="ScrollBar"
+               BasedOn="{StaticResource ModernScrollBar}" />
+                    </ScrollViewer.Resources>
+
+
+                    <DataGrid x:Name="LaunchItemsGrid"
+                  ColumnHeaderStyle="{StaticResource CustomDataGridColumnHeaderStyle}"
+                  ColumnHeaderHeight="34"
+                  RowStyle="{StaticResource CustomDataGridRowStyle}"
+                  CellStyle="{StaticResource CustomDataGridCellStyle}"
+                  ItemsSource="{Binding LaunchItems}"
+                  AutoGenerateColumns="False"
+                  CanUserAddRows="False"
+                  CanUserDeleteRows="False"
+                  IsReadOnly="False"
+                  Foreground="{DynamicResource DataGridForegroundBrush}"
+                  Background="{DynamicResource DataGridBackgroundBrush}"
+                  RowBackground="{DynamicResource DataGridRowBrush}"
+                  AlternatingRowBackground="{DynamicResource DataGridAltRowBrush}"
+                  HorizontalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}"
+                  VerticalGridLinesBrush="{DynamicResource DataGridGridLinesBrush}"
+                  BorderBrush="{DynamicResource GroupBoxBorderBrush}"
+                  BorderThickness="0"
+                  MouseRightButtonUp="LaunchItemsGrid_MouseRightButtonUp"
+                  CurrentCellChanged="Grid_CurrentCellChanged"
+                  CellEditEnding="Grid_CellEditEnding"
+                  SelectionChanged="LaunchItemsGrid_SelectionChanged_1"
+                  Margin="0,5,0,10">
+
+                        <DataGrid.Columns>
+                            <DataGridTextColumn Header="#"
+                                    Binding="{Binding Order}"
+                                    Width="40" />
+                            <DataGridTextColumn Header="Name"
+                                    Binding="{Binding DisplayName}"
+                                    Width="*" />
+                            <DataGridTextColumn Header="Path"
+                                    Binding="{Binding FullPath}"
+                                    Width="2*" />
+                            <DataGridTextColumn Header="Delay (ms)"
+                                    Binding="{Binding DelayMs}"
+                                    Width="80" />
+                            <DataGridCheckBoxColumn Header="Min"
+                                        Binding="{Binding StartMinimized}"
+                                        Width="45" />
+                            <DataGridCheckBoxColumn Header="FM"
+                                        Binding="{Binding ForceMinimize}"
+                                        Width="45" />
+                            <DataGridCheckBoxColumn Header="STT"
+                                        Binding="{Binding StartToTray}"
+                                        Width="45" />
+                            <DataGridCheckBoxColumn Header="CMD"
+                                        Binding="{Binding UseCmdRelay}"
+                                        Width="45" />
+                            <!-- Close-to-tray flag column -->
+                            <DataGridCheckBoxColumn Header="CT"
+                                        Binding="{Binding CloseToTray}"
+                                        Width="45" />
+                        </DataGrid.Columns>
+                    </DataGrid>
+                </ScrollViewer>
+
+                <!-- list control buttons (fixed, never scroll) -->
+                <StackPanel Grid.Row="1"
+                Orientation="Horizontal"
+                HorizontalAlignment="Left"
+                Margin="189,0,0,10"
+                d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                    <Button Content="Move up"
+                Width="80"
+                Margin="0,0,5,0"
+                Click="MoveUpButton_Click" />
+                    <Button Content="Move down"
+                Width="90"
+                Margin="0,0,5,0"
+                Click="MoveDownButton_Click" />
+                    <Button Content="Delete"
+                Width="80"
+                Margin="0,0,5,0"
+                Click="DeleteButton_Click" />
+                    <!-- manual save button -->
+                    <Button Content="Save list"
+                Width="90"
+                Click="SaveLaunchListButton_Click" />
+                </StackPanel>
+
+                <!-- AUDIO SETTINGS CARD (fixed bottom, never scroll) -->
+                <GroupBox Grid.Row="2"
+              Header="Audio (Default devices)"
+              Style="{StaticResource RoundedGroupBox}"
+              Margin="5,5,0,4"
+              d:LayoutOverrides="LeftMargin, RightMargin, TopMargin, BottomMargin">
+                    <StackPanel Margin="10">
+
+                        <TextBlock Text="Audio Settings"
+                       FontSize="16"
+                       FontWeight="Bold"
+                       Margin="0,0,0,4"
+                       Style="{StaticResource ThemeLabel}" />
+
+                        <TextBlock Text="Configure default playback and recording devices before running your startup sequence."
+                       TextWrapping="Wrap"
+                       Opacity="0.8"
+                       Margin="0,0,0,10"
+                       Style="{StaticResource ThemeLabel}" />
+
+                        <Button Content="Open Audio Settings Window"
+                    Width="200"
+                    Height="30"
+                    HorizontalAlignment="Left"
+                    Click="AudioSettingsButton_Click" />
+
+                        <!-- Logo + watermark row -->
+                        <StackPanel Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Height="141"
+                        Margin="0,-82,0,0"
+                        Width="246">
+
+                            <Image Source="Assets/logo.png"
+                       Width="116"
+                       Height="102"
+                       Stretch="Uniform"
+                       Opacity="0.35"
+                       Margin="0,0,50,-10"
+                       VerticalAlignment="Bottom" />
+
+                            <TextBlock Text="E.L.K.A"
+                           FontSize="36"
+                           FontWeight="Bold"
+                           Foreground="Orange"
+                           Opacity="0.20"
+                           RenderTransformOrigin="0.5,0.5"
+                           Height="44"
+                           Margin="0,0,0,8"
+                           Width="124">
+                                <TextBlock.RenderTransform>
+                                    <TransformGroup>
+                                        <ScaleTransform/>
+                                        <SkewTransform/>
+                                        <RotateTransform Angle="-90"/>
+                                        <TranslateTransform/>
+                                    </TransformGroup>
+                                </TextBlock.RenderTransform>
+                            </TextBlock>
+                        </StackPanel>
+
+                    </StackPanel>
+                </GroupBox>
+            </Grid>
+
+        </Grid>
+    </Border>
+</Window>
+

@@ -1,0 +1,213 @@
+<Window x:Class="BootLauncherLite.DiscoveredNodeDetailsWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="Node details"
+        Height="420"
+        Width="460"
+        WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize"
+        Background="{DynamicResource CardBackgroundBrush}"
+        Foreground="{DynamicResource GroupBoxForegroundBrush}"
+        FontFamily="Segoe UI">
+
+    <Window.Resources>
+
+        <!-- Fallback / locked brushes for Lite (blue/dark theme) -->
+        <SolidColorBrush x:Key="OuterBackgroundBrush"           Color="#0B0E13" />
+        <SolidColorBrush x:Key="CardBackgroundBrush"            Color="#111827" />
+        <SolidColorBrush x:Key="GroupBoxBackgroundBrush"        Color="#1F2937" />
+        <SolidColorBrush x:Key="GroupBoxBorderBrush"            Color="#374151" />
+        <SolidColorBrush x:Key="GroupBoxForegroundBrush"        Color="#FFFFFF" />
+        <SolidColorBrush x:Key="GroupBoxHeaderForegroundBrush"  Color="#E5E7EB" />
+        <SolidColorBrush x:Key="ThemeTextBrush"                 Color="#E5E7EB"/>
+        <SolidColorBrush x:Key="DataGridForegroundBrush"        Color="#FFFFFF" />
+
+        <!-- Button brushes (same system as other Lite windows) -->
+        <SolidColorBrush x:Key="ButtonBackgroundBrush"        Color="#1F2937"/>
+        <SolidColorBrush x:Key="ButtonBorderBrush"            Color="#374151"/>
+        <SolidColorBrush x:Key="ButtonForegroundBrush"        Color="White"/>
+
+        <SolidColorBrush x:Key="ButtonHoverBackgroundBrush"   Color="#2B5EBF"/>
+        <SolidColorBrush x:Key="ButtonHoverBorderBrush"       Color="#60A5FA"/>
+        <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="#1E40AF"/>
+
+        <!-- RoundedGroupBox same style as main window -->
+        <Style TargetType="GroupBox" x:Key="RoundedGroupBox">
+            <Setter Property="Foreground"    Value="{DynamicResource GroupBoxForegroundBrush}"/>
+            <Setter Property="Background"    Value="{DynamicResource GroupBoxBackgroundBrush}"/>
+            <Setter Property="BorderBrush"   Value="{DynamicResource GroupBoxBorderBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"       Value="8"/>
+            <Setter Property="Margin"        Value="0,0,0,10"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="GroupBox">
+                        <Grid>
+                            <!-- main card -->
+                            <Border Background="{TemplateBinding Background}"
+                                    BorderBrush="{TemplateBinding BorderBrush}"
+                                    BorderThickness="{TemplateBinding BorderThickness}"
+                                    CornerRadius="12"
+                                    Padding="{TemplateBinding Padding}">
+                                <ContentPresenter Margin="0,10,0,0" />
+                            </Border>
+
+                            <!-- header "tab" -->
+                            <Border Background="Transparent"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Margin="12,-10,0,0"
+                                    Padding="6,2"
+                                    CornerRadius="2"
+                                    IsHitTestVisible="False">
+                                <ContentPresenter ContentSource="Header"
+                                                  RecognizesAccessKey="True"
+                                                  SnapsToDevicePixels="True">
+                                    <ContentPresenter.ContentTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding}"
+                                                       Foreground="{DynamicResource GroupBoxHeaderForegroundBrush}"
+                                                       FontWeight="Bold"
+                                                       VerticalAlignment="Center"
+                                                       SnapsToDevicePixels="True"/>
+                                        </DataTemplate>
+                                    </ContentPresenter.ContentTemplate>
+                                </ContentPresenter>
+                            </Border>
+                        </Grid>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Lite button style (implicit) -->
+        <Style TargetType="Button">
+            <!-- base brushes -->
+            <Setter Property="Background"      Value="{DynamicResource ButtonBackgroundBrush}"/>
+            <Setter Property="BorderBrush"     Value="{DynamicResource ButtonBorderBrush}"/>
+            <Setter Property="Foreground"      Value="{DynamicResource ButtonForegroundBrush}"/>
+            <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="Padding"         Value="6,3"/>
+            <Setter Property="Cursor"          Value="Hand"/>
+
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="6"
+                                Padding="{TemplateBinding Padding}">
+                            <!-- TextBlock so we fully control text color -->
+                            <TextBlock Style="{x:Null}"
+                                       Text="{TemplateBinding Content}"
+                                       HorizontalAlignment="Center"
+                                       VerticalAlignment="Center"
+                                       Foreground="{DynamicResource ButtonForegroundBrush}"
+                                       TextWrapping="NoWrap"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Setter Property="Background"  Value="{DynamicResource ButtonHoverBackgroundBrush}"/>
+                    <Setter Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}"/>
+                    <Setter Property="Foreground"  Value="{DynamicResource ButtonForegroundBrush}"/>
+                </Trigger>
+                <Trigger Property="IsPressed" Value="True">
+                    <Setter Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}"/>
+                </Trigger>
+                <Trigger Property="IsEnabled" Value="False">
+                    <Setter Property="Opacity" Value="0.5"/>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Style="{StaticResource ThemeLabel}" -->
+        <Style x:Key="ThemeLabel" TargetType="TextBlock">
+            <Setter Property="Foreground" Value="{DynamicResource GroupBoxForegroundBrush}" />
+        </Style>
+    </Window.Resources>
+
+    <Border CornerRadius="12"
+            Background="{DynamicResource CardBackgroundBrush}"
+            Padding="12"
+            Margin="8">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <!-- HEADER / BASIC INFO -->
+            <GroupBox Header="Node"
+                      Style="{StaticResource RoundedGroupBox}"
+                      Margin="0,0,0,8">
+                <Grid Margin="6">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+
+                    <StackPanel Grid.Column="0" Margin="0,0,8,0">
+                        <TextBlock Text="Name:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding Name}" Margin="0,0,0,6"/>
+
+                        <TextBlock Text="Mode:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding Mode}" Margin="0,0,0,6"/>
+
+                        <TextBlock Text="Primary IP:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding IpAddress}" Margin="0,0,0,6"/>
+                    </StackPanel>
+
+                    <StackPanel Grid.Column="1" Margin="8,0,0,0">
+                        <TextBlock Text="MAC:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding MacAddress}" Margin="0,0,0,6"/>
+
+                        <TextBlock Text="Last seen:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding LastSeen}" Margin="0,0,0,6"/>
+
+                        <TextBlock Text="Is self:" FontWeight="Bold" Style="{StaticResource ThemeLabel}" />
+                        <TextBlock Text="{Binding IsSelf}" Margin="0,0,0,6"/>
+                    </StackPanel>
+                </Grid>
+            </GroupBox>
+
+            <!-- ALL IPs LIST -->
+            <GroupBox Grid.Row="1"
+                      Header="All IP addresses"
+                      Style="{StaticResource RoundedGroupBox}">
+                <ListBox x:Name="IpsListBox"
+                         ItemsSource="{Binding AllIps}"
+                         BorderThickness="0"
+                         Background="Transparent"
+                         Foreground="{DynamicResource DataGridForegroundBrush}">
+                    <ListBox.ItemContainerStyle>
+                        <Style TargetType="ListBoxItem">
+                            <Setter Property="Padding" Value="2"/>
+                        </Style>
+                    </ListBox.ItemContainerStyle>
+                </ListBox>
+            </GroupBox>
+
+            <!-- BUTTONS -->
+            <StackPanel Grid.Row="2"
+                        Orientation="Horizontal"
+                        HorizontalAlignment="Right"
+                        Margin="0,8,0,0">
+                <Button Content="Use selected IP"
+                        Width="130"
+                        Height="26"
+                        Margin="0,0,8,0"
+                        Click="UseSelectedIpButton_Click"/>
+                <Button Content="Close"
+                        Width="80"
+                        Height="26"
+                        Click="CloseButton_Click"/>
+            </StackPanel>
+        </Grid>
+    </Border>
+</Window>
