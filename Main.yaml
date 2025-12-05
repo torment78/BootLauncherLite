@@ -1,8 +1,8 @@
 name: Publish to GitHub
-on:
+on: 
   push:
     branches: [main]
-  
+
 jobs:
   publish:
     runs-on: ubuntu-latest
@@ -14,4 +14,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: compiled-files
-          path: C:/Users/torme/Desktop/compile_for_ git
+          path: C:\Users\torme\Desktop\compile_for_git
