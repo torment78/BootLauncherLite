@@ -14,4 +14,4 @@ jobs:
         uses: actions/upload-artifact@v2
         with:
           name: compiled-files
-          path: C:\Users\torme\Desktop\compile_for_git
+          path: C:/Users/torme/Desktop/compile_for_git
