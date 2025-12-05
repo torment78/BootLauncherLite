@@ -1,0 +1,17 @@
+name: Publish to GitHub
+on:
+  push:
+    branches: [main]
+  
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the repo
+        uses: actions/checkout@v2
+        
+      - name: Upload artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: compiled-files
+          path: C:/Users/torme/Desktop/compile_for_ git
