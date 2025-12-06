@@ -15,7 +15,7 @@ jobs:
         run: |
           mkdir artifacts
           curl -L -o artifacts/BootLauncherLite.zip \
-            https://github.com/torment78/BootLauncherLite-/releases/download/snapshot-latest/BootLauncherLite.zip
+            https://github.com/torment78/BootLauncherLite/releases/download/snapshot-latest/BootLauncherLite.zip
 
       - name: Push ZIP to public repo
         run: |
