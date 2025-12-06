@@ -1,9 +1,9 @@
-name: Build and attach Release
+name: Build BootLauncherLite Release
 
 on:
   push:
     tags:
-      - 'v*'     # only run when you push a tag starting with v (v1.0.0 etc.)
+      - 'v*'
 
 jobs:
   build:
@@ -21,12 +21,11 @@ jobs:
       - name: Restore NuGet packages
         run: dotnet restore
 
-      - name: Publish (Release)
-        run: dotnet publish ./BootLauncherLite.csproj -c Release -o ./publish
+      - name: Publish BootLauncherLite
+        run: dotnet publish "./BootLauncher/BootLauncherLite/BootLauncherLite.csproj" -c Release -o "./publish"
 
-      - name: Create zip package
-        run: |
-          powershell Compress-Archive -Path publish\* -DestinationPath BootLauncherLite.zip -Force
+      - name: Zip publish folder
+        run: powershell Compress-Archive -Path publish\* -DestinationPath BootLauncherLite.zip -Force
 
       - name: Create GitHub Release and upload asset
         uses: softprops/action-gh-release@v2
