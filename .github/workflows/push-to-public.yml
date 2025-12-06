@@ -8,33 +8,35 @@ jobs:
     runs-on: windows-latest
 
     steps:
-      - name: Checkout source
+      - name: Checkout source (private repo)
         uses: actions/checkout@v4
 
-      - name: Download artifact
+      - name: Download ZIP from private release
         run: |
-          mkdir -p artifacts
-          curl -L -o artifacts/BootLauncherLite.zip https://github.com/torment78/BootLauncherLite/releases/download/snapshot-latest/BootLauncherLite.zip
+          mkdir artifacts
+          curl -L -o artifacts/BootLauncherLite.zip \
+            https://github.com/torment78/BootLauncherLite-/releases/download/snapshot-latest/BootLauncherLite.zip
 
-      - name: Setup .NET
-        uses: actions/setup-dotnet@v4
-        with:
-          dotnet-version: '8.0.x'
-
-      - name: Unzip artifact
-        run: powershell Expand-Archive -Path artifacts/BootLauncherLite.zip -DestinationPath artifacts
-
-      - name: Push artifact to public repo
+      - name: Push ZIP to public repo
         run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          
-          git remote add public_repo https://github.com/torment78/BootLauncherLite-.git
-          echo "${{ secrets.PUBLIC_REPO_TOKEN }}" | git credential approve
-          
-          cp artifacts/BootLauncherLite.zip .
+          # make a clean git repo just for the public repo
+          mkdir public-repo
+          cd public-repo
+
+          git init
+
+          git config user.name  "GitHub Actions"
+          git config user.email "actions@github.com"
+
+          # IMPORTANT: use the PAT in the URL so git DOESN'T use github-actions[bot]
+          git remote add origin https://x-access-token:${{ secrets.PUBLIC_REPO_TOKEN }}@github.com/torment78/BootLauncherLite-.git
+
+          # bring the zip into this repo
+          cp ../artifacts/BootLauncherLite.zip .
+
           git add BootLauncherLite.zip
-          git commit -m "Deploy compiled artifact"
-          git push public_repo master
-        env:
-          PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
+          git commit -m "Automated snapshot from ${GITHUB_SHA}"
+
+          # GitHub new repos default to 'main'. Change to 'master' if your public repo uses that.
+          git branch -M main
+          git push -f origin main
