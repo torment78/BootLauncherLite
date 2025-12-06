@@ -14,7 +14,7 @@ jobs:
       - name: Download artifact
         run: |
           mkdir -p artifacts
-          curl -L -o artifacts/BootLauncherLite.zip https://github.com/torment78/BootLauncherLite-/releases/download/snapshot-latest/BootLauncherLite.zip
+          curl -L -o artifacts/BootLauncherLite.zip https://github.com/torment78/BootLauncherLite/releases/download/snapshot-latest/BootLauncherLite.zip
 
       - name: Setup .NET
         uses: actions/setup-dotnet@v4
