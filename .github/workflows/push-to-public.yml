@@ -30,11 +30,11 @@ jobs:
           git config --global user.email "actions@github.com"
           
           git remote add public_repo https://github.com/torment78/BootLauncherLite-.git
-          echo "${{ secrets.PUBLIC_REPO_TOKEN }}" | git credential approve
+          echo "${{ secrets.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 }}" | git credential approve
           
           cp artifacts/BootLauncherLite.zip .
           git add BootLauncherLite.zip
           git commit -m "Deploy compiled artifact"
           git push public_repo master
         env:
-          PUBLIC_REPO_TOKEN: ${{ secrets.PUBLIC_REPO_TOKEN }}
+          PUBLIC_REPO_TOKEN: ${{ secrets.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 }}
