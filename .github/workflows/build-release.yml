@@ -19,10 +19,17 @@ jobs:
         with:
           dotnet-version: '8.0.x'
 
-      
+      # Optional: restore (publish will restore anyway, but this is fine)
+      - name: Restore NuGet packages
+        run: dotnet restore
 
-      - name: Publish BootLauncherLite
-        run: dotnet publish -c Release -o "./publish"
+      - name: Publish BootLauncherLite (win-x64, framework-dependent, single file)
+        run: dotnet publish `
+              -c Release `
+              -r win-x64 `
+              /p:PublishSingleFile=true `
+              /p:SelfContained=false `
+              -o "./publish"
 
       - name: Zip publish folder
         run: powershell Compress-Archive -Path publish\* -DestinationPath BootLauncherLite.zip -Force
