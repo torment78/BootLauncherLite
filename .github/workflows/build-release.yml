@@ -23,7 +23,7 @@ jobs:
         run: dotnet restore
 
       - name: Publish BootLauncherLite
-        run: dotnet publish "./BootLauncher/BootLauncherLite/BootLauncherLite.csproj" -c Release -o "./publish"
+        run: dotnet publish -c Release -o "./publish"
 
       - name: Zip publish folder
         run: powershell Compress-Archive -Path publish\* -DestinationPath BootLauncherLite.zip -Force
