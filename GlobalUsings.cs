@@ -33,4 +33,4 @@ global using BootLauncherLite.Audio;
 global using System.Threading;
 // IMPORTANT: WinForms in Tray ONLY
 // We do NOT import WinForms globally — to avoid UI conflicts.
-// TrayIconManager.cs will include its own private using.
+// TrayIconManager.cs will include its own private 
