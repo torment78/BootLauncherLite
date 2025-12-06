@@ -32,5 +32,8 @@ jobs:
         uses: softprops/action-gh-release@v2
         with:
           files: BootLauncherLite.zip
+          tag_name: snapshot-latest
+          name: snapshot_latest
+          body: This is an automated snapshot build for the latest commit
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
