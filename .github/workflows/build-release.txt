@@ -1,0 +1,35 @@
+name: Build BootLauncherLite Release
+
+on:
+  push:
+    tags:
+      - 'v*'
+
+jobs:
+  build:
+    runs-on: windows-latest
+
+    steps:
+      - name: Checkout source
+        uses: actions/checkout@v4
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restore NuGet packages
+        run: dotnet restore
+
+      - name: Publish BootLauncherLite
+        run: dotnet publish "./BootLauncher/BootLauncherLite/BootLauncherLite.csproj" -c Release -o "./publish"
+
+      - name: Zip publish folder
+        run: powershell Compress-Archive -Path publish\* -DestinationPath BootLauncherLite.zip -Force
+
+      - name: Create GitHub Release and upload asset
+        uses: softprops/action-gh-release@v2
+        with:
+          files: BootLauncherLite.zip
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
