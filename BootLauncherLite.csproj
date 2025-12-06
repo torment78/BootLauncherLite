@@ -6,7 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
 	  <RuntimeIdentifier>win-x64</RuntimeIdentifier>
-	  <SelfContained>true</SelfContained>
+	  
     <RootNamespace>BootLauncherLite</RootNamespace>
     <AssemblyName>BootLauncherLite</AssemblyName>
     <ApplicationIcon>Assets\skull.ico</ApplicationIcon>
