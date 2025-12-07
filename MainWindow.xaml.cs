@@ -1603,10 +1603,7 @@ namespace BootLauncherLite
         {
             if (_toastWindow == null || !_toastWindow.IsLoaded)
             {
-                _toastWindow = new ToastWindow
-                {
-                    Owner = this
-                };
+                _toastWindow = new ToastWindow();
 
                 // Skip only the delay
                 _toastWindow.SkipDelayRequested += () =>
