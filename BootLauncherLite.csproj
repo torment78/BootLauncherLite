@@ -10,7 +10,7 @@
     <RootNamespace>BootLauncherLite</RootNamespace>
     <AssemblyName>BootLauncherLite</AssemblyName>
     <ApplicationIcon>Assets\skull.ico</ApplicationIcon>
-    <Platforms>AnyCPU;x64</Platforms>
+    <Platforms>x64</Platforms>
   </PropertyGroup>
   <ItemGroup>
     <Content Include="Assets\skull.ico" />
