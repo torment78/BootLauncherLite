@@ -2,7 +2,7 @@ using System;
 using System.Collections.ObjectModel;
 using System.IO;
 
-namespace BootLauncher.Services
+namespace BootLauncherLite.Services
 {
     public class LogService
     {
